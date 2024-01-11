@@ -45,11 +45,23 @@
 				<div class="projetsEdition">
 					<h2>Mes Projets</h2>
 					<div id="editionLogin">
-						<a href=""><i class="fa-regular fa-pen-to-square"></i>
+						<a href="#modal1" class="jsModal">
+						<i class="fa-regular fa-pen-to-square"></i>
 						<p>modifier</p>
 						</a>
 					</div>
 				</div>
+				<aside id="modal1" class="modal" aria-hidden="true" role="dialog">
+					<div class="modalWrapper jsModalStop">
+						<button class="jsModalClose">
+							<i class="fa-solid fa-xmark"></i>
+						</button>
+						<h3>Galerie photo</h3>
+						<div class="galleryModal"></div>
+						<div class="line"></div>
+						<button class="addPhoto">Ajouter une photo</button>
+					</div>
+				</aside>
 				<div id="filters"></div>
 				<div class="gallery"></div>
 			</section>
@@ -66,13 +78,6 @@
 					<input type="submit" value="Envoyer">
 				</form>
 			</section>
-			<div id="modale" class="modal">
-				<i class="fa-solid fa-xmark"></i>
-				<h3>Galerie photo</h3>
-				<div class="line"></div>
-				<button onclick="closeModal()">Ajouter une photo</button>
-				<!--git remote set-url origin new.git.url/here-->
-			  </div>
 		</main>
 		<footer>
 			<nav>
@@ -83,6 +88,6 @@
 		</footer>
 	</div>
 <script src="./js/script.js"></script>
-<script src="js/modal.js"></script>
+<script src="./js/modal.js"></script>
 </body>
 </html>

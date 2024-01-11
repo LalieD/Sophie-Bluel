@@ -36,6 +36,7 @@ function verificationToken() {
         document.getElementById("editionLogin").style.display = "block"
         /*let filtersHidden = document.getElementById("filters")
         filtersHidden.hidden = true*/
+        initModal()
 
     } else {
         document.getElementById("banner").style.display = "none"
