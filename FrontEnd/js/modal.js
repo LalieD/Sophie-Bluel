@@ -16,15 +16,13 @@ const displayGallery = (gallery) => {
     worksModal.appendChild(baliseImage)
 }
 
-let modal = null
+let modal = document.getElementById("modal1")
 
 const openModal = function (e) {
   e.preventDefault()
-  const target = document.querySelector(e.target.getAttribute("href"))
-  target.style.display = "flex"
-  target.removeAttribute('aria-hidden')
-  target.setAttribute('aria-modal', 'true')
-  modal = target
+  modal.style.display = "flex"
+  modal.removeAttribute('aria-hidden')
+  modal.setAttribute('aria-modal', 'true')
   modal.addEventListener('click', closeModal)
   modal.querySelector('.jsModalClose').addEventListener('click', closeModal)
   modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)
@@ -39,7 +37,6 @@ const closeModal = function (e) {
   modal.removeEventListener('click', closeModal)
   modal.querySelector('.jsModalClose').removeEventListener('click', closeModal)
   modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation)
-  modal = null
 }
 
 const stopPropagation = function (e) {

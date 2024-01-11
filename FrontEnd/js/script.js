@@ -48,14 +48,23 @@ function filterWorks(works, selectedFilter) {
     return works.filter(work => work.categoryId === selectedFilter)
 }
 
+const activeClassAll = (event) => {
+    Array.from(event.target.parentNode.children).forEach(element => {
+        element.classList.remove('active')
+    })
+    event.target.classList.add('active')
+}
+
 
 const displayFilter = (filter, works) => {
     const buttonFilter = document.createElement("button")
     buttonFilter.textContent = filter.name
     buttonFilter.classList.add('buttonsFilter')
-    buttonFilter.addEventListener("click", function() {
+    buttonFilter.addEventListener("click", function(event) {
         const filteredWorks = filterWorks(works, filter.id)
         displayWorks(filteredWorks)
+        console.log(event.target.parentNode.children)
+        activeClassAll(event)
     })
     filters.appendChild(buttonFilter)
 }
@@ -63,8 +72,9 @@ const displayFilter = (filter, works) => {
 const initFilters = async function(works) {
     const all = document.createElement("button")
     all.textContent = "Tous"
-    all.addEventListener("click", function() {
+    all.addEventListener("click", function(event) {
     displayWorks(works)
+    activeClassAll(event)
     
 })
     /*all.addEventListener("click", function() {
