@@ -34,8 +34,7 @@ function verificationToken() {
         document.getElementById("banner").style.display = "flex"
         document.getElementById("login").innerHTML="logout"
         document.getElementById("editionLogin").style.display = "block"
-        /*let filtersHidden = document.getElementById("filters")
-        filtersHidden.hidden = true*/
+        document.getElementById("filters").style.display ="none"
         initModal()
 
     } else {
@@ -77,10 +76,6 @@ const initFilters = async function(works) {
     activeClassAll(event)
     
 })
-    /*all.addEventListener("click", function() {
-        all.classList.add("active")
-    })*/
-
     filters.appendChild(all)
     
     const displayFilters = await getFilters()

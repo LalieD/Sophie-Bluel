@@ -17,6 +17,8 @@ const displayGallery = (gallery) => {
 }
 
 let modal = document.getElementById("modal1")
+let firstPage = document.getElementById("modalFirstPage")
+let secondPage = document.getElementById("modalSecondPage")
 
 const openModal = function (e) {
   e.preventDefault()
@@ -26,6 +28,12 @@ const openModal = function (e) {
   modal.addEventListener('click', closeModal)
   modal.querySelector('.jsModalClose').addEventListener('click', closeModal)
   modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)
+}
+
+const openAddProjetFormModal = function (e) {
+  e.preventDefault()
+  firstPage.style.display = "none"
+  secondPage.style.display ="flex"
 }
 
 const closeModal = function (e) {
@@ -44,8 +52,8 @@ const stopPropagation = function (e) {
 }
 
 
-document.querySelectorAll('.jsModal').forEach(a => {
-  a.addEventListener('click', openModal)
+document.querySelectorAll('.jsModal').forEach(button => {
+  button.addEventListener('click', openModal)
 })
 
 
@@ -56,6 +64,7 @@ const initModal = async function() {
     displayGallery(gallery)
   })
   displayGalleryModal()
+  modal.querySelector('.addPhoto').addEventListener('click', openAddProjetFormModal)
 }
 
 
