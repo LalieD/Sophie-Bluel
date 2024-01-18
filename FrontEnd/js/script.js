@@ -1,8 +1,6 @@
 const url1 = "http://localhost:5678/api/works"
 const travaux = document.querySelector(".gallery")
 const filters = document.getElementById("filters")
-
-
 const url2 = "http://localhost:5678/api/categories"
 
 
@@ -34,7 +32,7 @@ function verificationToken() {
         document.getElementById("banner").style.display = "flex"
         document.getElementById("login").innerHTML="logout"
         document.getElementById("editionLogin").style.display = "block"
-        document.getElementById("filters").style.display ="none"
+        filters.style.display ="none"
         initModal()
 
     } else {

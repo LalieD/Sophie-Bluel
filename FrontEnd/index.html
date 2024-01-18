@@ -69,26 +69,24 @@
 							<i class="fa-solid fa-xmark"></i>
 						</button>
 						<h3>Ajout photo</h3>
-						<div class="inputPhoto">
-							<i class="fa-regular fa-image"></i>
-							<input type="file">
-							<label for="fileInput" class="fileButton">+ Ajouter photo</label>
-							<p>jpg, png : 4mo max</p>
-						</div>
-						<div class="titleModal">
-							<p>Titre</p>
-							<input type="text">
-						</div>	
-						<div class="categoryModal">
-							<p>Catégorie</p>
-							<select name="categoryChoice" id="selectCategory">
-								<option value="1">Objets</option>
-								<option value="2">Appartements</option>
-								<option value="3">Hôtels et restaurants</option>
-							</select>
-						</div>
-						<div class="line"></div>
-						<button class="validatePhoto">Valider</button>
+						<form action="">
+							<div class="inputPhoto">
+								<i class="fa-regular fa-image"></i>
+								<input type="file" id="fileInput" name="fileInput">
+								<label for="fileInput" class="fileButton">+ Ajouter photo</label>
+								<p>jpg, png : 4mo max</p>
+							</div>
+							<div class="titleModal">
+								<p>Titre</p>
+								<input type="text" name="title">
+							</div>	
+							<div class="categoryModal">
+								<p>Catégorie</p>
+								<select name="categoryChoice" id="selectCategory"></select>
+							</div>
+							<div class="line"></div>
+							<button class="validatePhoto" type="submit">Valider</button>
+						</form>
 					</div>
 				</aside>
 				<div id="filters"></div>

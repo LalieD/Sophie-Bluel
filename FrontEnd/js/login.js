@@ -53,13 +53,7 @@ const init = () => {
         if(validateEmail(event.target.elements["email"].value) && event.target.elements["password"].value) {
             login(event.target.elements["email"].value, event.target.elements["password"].value)
         }
- 
-
     })
-
-
 }
-
-
 
 init ()

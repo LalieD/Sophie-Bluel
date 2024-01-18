@@ -10,11 +10,54 @@ const displayGalleryModal = () => {
   })
 }
 
-const displayGallery = (gallery) => {
+
+const displayGallery = async function(work) {
+    const baliseFigure = document.createElement("figure")
+    worksModal.appendChild(baliseFigure)
+    
     const baliseImage = document.createElement("img")
-    baliseImage.src = gallery.imageUrl
-    worksModal.appendChild(baliseImage)
+    baliseImage.src = work.imageUrl
+    baliseFigure.appendChild(baliseImage)
+    
+    const divButton = document.createElement("div")
+    baliseFigure.appendChild(divButton)
+    
+    const buttonDelete = document.createElement('button')
+    buttonDelete.innerHTML ='<i class="fa-solid fa-trash-can"></i>'
+    divButton.appendChild(buttonDelete)
+
+    /*
+    const travauxModal = await displayGalleryModal()
+    const element = travauxModal[i] 
+    
+    
+    buttonDelete.addEventListener('click', () => {
+      if(confirm("Voulez-vous vraiment supprimer ce projet ?")) {
+        deleteWork(element.id)
+        try {
+          while (baliseFigure.)
+        }
+      }
+    })
+
+
+
+    /* évènement sur l'icône, dans l'évènement fonction suppresion du projet avec le fetch à l'intérieur et en paramètre l'id du projet à supprimer/ (work.id)*/
 }
+
+const displayCategoryModal = () => {
+  return fetch(url2)
+    .then(function (res){
+        return res.json()
+    }) 
+    .then(data => {
+      displayCategory(data)
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+}
+
 
 let modal = document.getElementById("modal1")
 let firstPage = document.getElementById("modalFirstPage")
@@ -25,15 +68,37 @@ const openModal = function (e) {
   modal.style.display = "flex"
   modal.removeAttribute('aria-hidden')
   modal.setAttribute('aria-modal', 'true')
-  modal.addEventListener('click', closeModal)
   modal.querySelector('.jsModalClose').addEventListener('click', closeModal)
   modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)
+}
+
+const displayCategory = (data) => {
+  let select = document.getElementById("selectCategory")
+  select.innerHTML = ''
+  const placeholderOption = document.createElement('option')
+  placeholderOption.value = ''
+  placeholderOption.textContent = 'Sélectionnez une catégorie'
+  select.appendChild(placeholderOption)
+  data.forEach(option => {
+    const optionElement = document.createElement('option')
+    optionElement.value = option.id
+    optionElement.textContent = option.name
+    select.appendChild(optionElement)
+  })
+
 }
 
 const openAddProjetFormModal = function (e) {
   e.preventDefault()
   firstPage.style.display = "none"
   secondPage.style.display ="flex"
+  displayCategoryModal()
+}
+
+
+const openGalleryModal = () => {
+  secondPage.style.display = "none"
+  firstPage.style.display = "flex"
 }
 
 const closeModal = function (e) {
@@ -56,6 +121,18 @@ document.querySelectorAll('.jsModal').forEach(button => {
   button.addEventListener('click', openModal)
 })
 
+const validateForm = function (e) {
+ e.preventDefault()
+ const inputFile = e.fileInput.file 
+ /* 
+  la même chose pour les input text et category avec un .value
+  e.fileInput.file ne doit pas être vide (le vérifier)
+  le titre doit aussi avoir une valeur (pas de string vide)
+  select doit avoir une valeur (id sélectionné) et pas celle de placeholder
+  afficher un message d'erreur sous chaque input qui n'a pas la bonne valeur : dans le html balise p qui est en display none, la ou les placer en display block (3 if d'affilé sans else)
+ */
+}
+
 
 const initModal = async function() {
   const travauxModal = await displayGalleryModal()
@@ -65,6 +142,8 @@ const initModal = async function() {
   })
   displayGalleryModal()
   modal.querySelector('.addPhoto').addEventListener('click', openAddProjetFormModal)
+  modal.querySelector('.jsModalReturn').addEventListener('click', openGalleryModal)
+  /* Récupérer le formulaire via l'id, ajouter un event de submit (à la place de click) puis validateForm() comme juste au dessus!*/
 }
 
 
