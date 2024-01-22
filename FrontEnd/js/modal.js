@@ -1,5 +1,6 @@
 const worksModal = document.querySelector(".galleryModal")
 
+
 const displayGalleryModal = () => {
   return fetch(url1)
   .then (function (res) {
@@ -26,24 +27,37 @@ const displayGallery = async function(work) {
     buttonDelete.innerHTML ='<i class="fa-solid fa-trash-can"></i>'
     divButton.appendChild(buttonDelete)
 
-    /*
-    const travauxModal = await displayGalleryModal()
-    const element = travauxModal[i] 
-    
-    
-    buttonDelete.addEventListener('click', () => {
+    /*Test gestionnaire d'évènements pour le bouton de suppression*/
+    buttonDelete.addEventListener('click', async () => {
       if(confirm("Voulez-vous vraiment supprimer ce projet ?")) {
-        deleteWork(element.id)
-        try {
-          while (baliseFigure.)
-        }
+        await deleteWork(work.id)
+        baliseFigure.remove()
       }
     })
-
-
-
-    /* évènement sur l'icône, dans l'évènement fonction suppresion du projet avec le fetch à l'intérieur et en paramètre l'id du projet à supprimer/ (work.id)*/
 }
+
+
+/*Test fonction de suppression des projets*/
+const deleteWork = async (projectId) => {
+  const url = "http://localhost:5678/api/works/{id}"
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la suppression du projet')
+    }
+
+    console.log('Projet supprimé avec succès')
+  } catch (error) {
+    console.error('Erreur lors de la suppresion du projet', error.message)
+  }
+}
+
 
 const displayCategoryModal = () => {
   return fetch(url2)
@@ -123,7 +137,40 @@ document.querySelectorAll('.jsModal').forEach(button => {
 
 const validateForm = function (e) {
  e.preventDefault()
- const inputFile = e.fileInput.file 
+ /*Test fonction de validation du formulaire*/
+ const titleInput = document.getElementById('titleInput')
+ const fileInput = document.getElementById('fileInput')
+ const selectCategory = document.getElementById('selectCategory')
+
+ const errorTitle = document.getElementById('errorTitle')
+ const errorFileInput = document.getElementById('errorFileInput')
+ const errorSelectCategory = document.getElementById('errorSelectCategory')
+
+ /*Réinitialisation des messages d'erreur*/
+ errorTitle.textContent = ''
+ errorFileInput.textContent = ''
+ errorSelectCategory.textContent = ''
+ 
+ if (titleInput.value.trim() === '') {
+  errorTitle.textContent = 'Veuillez renseigner un titre'
+ }
+ 
+ if (!fileInput.files[0]) {
+  errorFileInput.textContent = 'Veuillez insérer une image'
+ }
+
+ if (selectCategory.value === '') {
+  errorSelectCategory.textContent = 'Veuillez sélectionner un titre'
+ }
+ 
+ /*Soumission du formulaire si tous les champs sont valides*/
+ if (errorTitle.textContent === '' && errorFileInput.textContent === '' && errorSelectCategory.textContent === '') {
+  console.log('Formulaire valide, tous les champs ont correctement été renseignés')
+ }
+
+
+
+ 
  /* 
   la même chose pour les input text et category avec un .value
   e.fileInput.file ne doit pas être vide (le vérifier)
@@ -144,6 +191,8 @@ const initModal = async function() {
   modal.querySelector('.addPhoto').addEventListener('click', openAddProjetFormModal)
   modal.querySelector('.jsModalReturn').addEventListener('click', openGalleryModal)
   /* Récupérer le formulaire via l'id, ajouter un event de submit (à la place de click) puis validateForm() comme juste au dessus!*/
+  const form = document.getElementById('formModal')
+  form.addEventListener('submit', validateForm)
 }
 
 

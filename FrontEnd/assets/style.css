@@ -460,6 +460,11 @@ input[type="submit"]{
 	box-shadow: 0px 4px 14px 0px #00000017;
 }
 
+.error-message {
+	color: red;
+	font-size: 0.8rem;
+}
+
 .line {
 	width: 420px;
 	height: 1px;
