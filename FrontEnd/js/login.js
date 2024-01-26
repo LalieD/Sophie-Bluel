@@ -23,7 +23,7 @@ async function login(emailValue, passwordValue) {
         if(response.ok) {
             const responseData = await response.json()
         console.log(response)
-        localStorage.setItem('token', JSON.stringify(responseData.token))
+        localStorage.setItem('token', responseData.token)
         window.location.href = "index.html"
         } else {
             document.getElementById('unauthorizedAccess').innerHTML="Accès non autorisé"

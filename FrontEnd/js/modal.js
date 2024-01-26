@@ -2,7 +2,7 @@ const worksModal = document.querySelector(".galleryModal")
 
 /* Je récupère les projets depuis l'API comme déjà fait précédemment */
 
-const displayGalleryModal = () => {
+const getGalleryModal = () => {
   return fetch(url1)
   .then (function (res) {
       return res.json()
@@ -29,8 +29,10 @@ const displayGallery = async function(work) {
     buttonDelete.innerHTML ='<i class="fa-solid fa-trash-can"></i>'
     divButton.appendChild(buttonDelete)
 
-    /*Test gestionnaire d'évènements pour le bouton de suppression*/
-    buttonDelete.addEventListener('click', async () => {
+    /* Gestionnaire d'évènements pour le bouton de suppression */
+
+    buttonDelete.addEventListener('click', async (event) => {
+      event.preventDefault()
       if(confirm("Voulez-vous vraiment supprimer ce projet ?")) {
         await deleteWork(work.id)
         baliseFigure.remove()
@@ -41,12 +43,16 @@ const displayGallery = async function(work) {
 
 /*Test fonction de suppression des projets*/
 const deleteWork = async (projectId) => {
-  const url = "http://localhost:5678/api/works/{id}"
+  const url = `http://localhost:5678/api/works/${projectId}`
+  
   try {
+    const token = localStorage.getItem('token')
+
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     })
 
@@ -169,9 +175,6 @@ const closeModal = function (e) {
   modal.style.display = "none"
   modal.setAttribute('aria-hidden', 'true')
   modal.removeAttribute('aria-modal')
-  /*modal.removeEventListener('click', closeModal)
-  modal.querySelector('.jsModalClose').removeEventListener('click', closeModal)
-  modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation)*/ 
 }
 
 /* Cela permet d'empêcher la propagation de l'évènement de clic */
@@ -186,12 +189,13 @@ document.querySelectorAll('.jsModal').forEach(button => {
   button.addEventListener('click', openModal)
 })
 
-/*Test pour rafraîchir la galerie de la modale*/ 
+/*Rafraîchir la galerie de la modale*/ 
+
 const refreshGalleries = async () => {
   /*Vider la galerie*/
   worksModal.innerHTML = ''
 
-  const travauxModal = await displayGalleryModal()
+  const travauxModal = await getGalleryModal()
   travauxModal.forEach(gallery => {
     displayGallery(gallery)
   })
@@ -224,7 +228,7 @@ const validateForm = async function (e) {
  }
 
  if (selectCategory.value === '') {
-  errorSelectCategory.textContent = 'Veuillez sélectionner un titre'
+  errorSelectCategory.textContent = 'Veuillez sélectionner une catégorie'
  }
  
  /*Soumission du formulaire si tous les champs sont valides*/
@@ -235,9 +239,14 @@ const validateForm = async function (e) {
   formData.append('image', fileInput.files[0])
   
   try {
+    const token = localStorage.getItem('token')
+    
     const response = await fetch ("http://localhost:5678/api/works", {
       method: 'POST',
       body: formData,
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
     })
 
     if (!response.ok) {
@@ -249,24 +258,22 @@ const validateForm = async function (e) {
   } catch (error) {
     console.error('Erreur lors de l\'envoi des données')
   }
-
-
-
-
  }
-
 }
 
 /* J'affiche la galerie dans la modale, sur le bouton d'ajout de projet j'ouvre la seconde page de la modale et je peux retourner en arrière avec la flèche de retour, enfin, je récupère le formulaire présent sur la seconde page et je lui ajoute un évènement submit */
 
 const initModal = async function() {
-  const travauxModal = await displayGalleryModal()
+  const travauxModal = await getGalleryModal()
   travauxModal.forEach(gallery => {
     displayGallery(gallery)
   })
-  displayGalleryModal()
+  getGalleryModal()
   modal.querySelector('.addPhoto').addEventListener('click', openAddProjetFormModal)
   modal.querySelector('.jsModalReturn').addEventListener('click', openGalleryModal)
+  modal.querySelectorAll('.jsModalClose').forEach(Element => {
+    Element.addEventListener('click', closeModal)
+  })
   /* Récupérer le formulaire via l'id, ajouter un event de submit (à la place de click) puis validateForm() comme juste au dessus!*/
   const form = document.getElementById('formModal')
   form.addEventListener('submit', validateForm)

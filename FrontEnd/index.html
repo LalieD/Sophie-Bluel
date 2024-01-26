@@ -71,11 +71,13 @@
 						<h3>Ajout photo</h3>
 						<form action="" id="formModal">
 							<div class="inputPhoto">
-								<i class="fa-regular fa-image hide-on-preview" ></i>
-								<img id="previewImage" alt="Image Preview">
-								<input type="file" id="fileInput" name="fileInput" class="hide-on-preview">
-								<label for="fileInput" class="fileButton hide-on-preview">+ Ajouter photo</label>
-								<p class="hide-on-preview">jpg, png : 4mo max</p>
+								<i class="fa-regular fa-image" ></i>
+								<input type="file" id="fileInput" name="fileInput">
+								<label for="fileInput" class="fileButton">
+									<span class="addPicture">+ Ajouter photo</span>
+									<img id="previewImage" alt="Image Preview">
+								</label>
+								<p class="fileSize">jpg, png : 4mo max</p>
 								<p id="errorFileInput" class="error-message"></p>
 							</div>
 							<div class="titleModal">
@@ -112,14 +114,14 @@
 				</form>
 			</section>
 		</main>
-		<footer>
-			<nav>
-				<ul>
-					<li>Mentions Légales</li>
-				</ul>
-			</nav>
-		</footer>
 	</div>
+	<footer>
+		<nav>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
+		</nav>
+	</footer>
 <script src="./js/script.js"></script>
 <script src="./js/modal.js"></script>
 </body>

@@ -447,7 +447,10 @@ input[type="submit"]{
 
 #previewImage {
 	max-width: 100%;
-	max-height: 100%;
+	display: none;
+}
+
+.inputPhoto.hide-on-preview > i, .inputPhoto.hide-on-preview > .addPicture, .inputPhoto.hide-on-preview > .fileSize {
 	display: none;
 }
 
@@ -538,11 +541,13 @@ input[type="submit"]{
 
 footer {
 	background-color: #FFFFFF;
+	padding: 1rem;
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em;
+	font-family : 'Work Sans';
+	font-size: 14px;
 }
 

@@ -169,8 +169,12 @@ main button {
 	justify-content: center;
 }
 
-footer {
+
+footer nav ul {
 	display: flex;
+	background-color: #FFFFFF;
 	justify-content: flex-end;
-	margin: 2em;
+	font-family : 'Work Sans';
+	font-size: 14px;
+	padding: 0, ;
 }
