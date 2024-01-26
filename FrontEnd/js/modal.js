@@ -1,5 +1,6 @@
 const worksModal = document.querySelector(".galleryModal")
 
+/* Je récupère les projets depuis l'API comme déjà fait précédemment */
 
 const displayGalleryModal = () => {
   return fetch(url1)
@@ -11,6 +12,7 @@ const displayGalleryModal = () => {
   })
 }
 
+/* J'affiche la galerie dans la première page de la modale en créant les balises qui la contiennent ainsi que les boutons de suppression des projets */
 
 const displayGallery = async function(work) {
     const baliseFigure = document.createElement("figure")
@@ -58,6 +60,7 @@ const deleteWork = async (projectId) => {
   }
 }
 
+/* Je récupère les noms des filtres depuis l'API comme déjà fait précédemment */
 
 const displayCategoryModal = () => {
   return fetch(url2)
@@ -72,10 +75,13 @@ const displayCategoryModal = () => {
     })
 }
 
+/* Je récupère la balise aside contenant toute la modale puisles deux pages indépendamment */
 
 let modal = document.getElementById("modal1")
 let firstPage = document.getElementById("modalFirstPage")
 let secondPage = document.getElementById("modalSecondPage")
+
+/* J'ouvre la modale en l'affichant et j'appelle la fonction qui ferme la modale sur les boutons de fermeture */
 
 const openModal = function (e) {
   e.preventDefault()
@@ -85,6 +91,8 @@ const openModal = function (e) {
   modal.querySelector('.jsModalClose').addEventListener('click', closeModal)
   modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)
 }
+
+/* J'ajoute les catégories récupérées depuis l'API dans ma balise select et j'y ajoute une option vide qui ne séléctionne aucune catégorie */
 
 const displayCategory = (data) => {
   let select = document.getElementById("selectCategory")
@@ -102,18 +110,28 @@ const displayCategory = (data) => {
 
 }
 
+/* Je cache la première page de la modale pour afficher la seconde page de la modale */
+
 const openAddProjetFormModal = function (e) {
   e.preventDefault()
   firstPage.style.display = "none"
   secondPage.style.display ="flex"
   displayCategoryModal()
+
+  /*Preview de l'image*/
+  const previewImage = document.getElementById('previewImage')
+  previewImage.style.display = 'block'
+
 }
 
+/* Je cache la seconde page de la modale pour revenir sur la première page de la modale */
 
 const openGalleryModal = () => {
   secondPage.style.display = "none"
   firstPage.style.display = "flex"
 }
+
+/* Je fais une fonction qui ferme la modale dans son entièreté */
 
 const closeModal = function (e) {
   if (modal === null) return
@@ -121,21 +139,37 @@ const closeModal = function (e) {
   modal.style.display = "none"
   modal.setAttribute('aria-hidden', 'true')
   modal.removeAttribute('aria-modal')
-  modal.removeEventListener('click', closeModal)
+  /*modal.removeEventListener('click', closeModal)
   modal.querySelector('.jsModalClose').removeEventListener('click', closeModal)
-  modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation)
+  modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation)*/ 
 }
+
+/* Cela permet d'empêcher la propagation de l'évènement de clic */
 
 const stopPropagation = function (e) {
   e.stopPropagation()
-}
+} 
 
+/* Je récupère le bouton du mode édition et je lui ajoute l'évènement d'ouverture de la modale */
 
 document.querySelectorAll('.jsModal').forEach(button => {
   button.addEventListener('click', openModal)
 })
 
-const validateForm = function (e) {
+/*Test pour rafraîchir la galerie de la modale*/ 
+const refreshGalleries = async () => {
+  /*Vider la galerie*/
+  worksModal.innerHTML = ''
+
+  const travauxModal = await displayGalleryModal()
+  travauxModal.forEach(gallery => {
+    displayGallery(gallery)
+  })
+}
+
+/* Ici c'est une fonction qui permet de contrôler les différents champs présents dans le formulaire de la seconde page de la modale */
+
+const validateForm = async function (e) {
  e.preventDefault()
  /*Test fonction de validation du formulaire*/
  const titleInput = document.getElementById('titleInput')
@@ -169,17 +203,36 @@ const validateForm = function (e) {
  }
 
 
+ /*Test affichage infos fichier ajouté*/
+ fileInput.addEventListener('change', handleFileSelect)
 
- 
- /* 
-  la même chose pour les input text et category avec un .value
-  e.fileInput.file ne doit pas être vide (le vérifier)
-  le titre doit aussi avoir une valeur (pas de string vide)
-  select doit avoir une valeur (id sélectionné) et pas celle de placeholder
-  afficher un message d'erreur sous chaque input qui n'a pas la bonne valeur : dans le html balise p qui est en display none, la ou les placer en display block (3 if d'affilé sans else)
- */
+ function handleFileSelect(event) {
+  const files = event.target.files
+  if (files.length > 0) {
+    const selectedFile = files[0]
+    console.log('Nom du fichier :', selectedFile.name)
+    console.log('Taille du fichier :', selectedFile.size, 'octets')
+    console.log('Type MIME du fichier :', selectedFile.type)
+
+    const reader = new FileReader()
+
+    reader.onload = function (e) {
+      const previewImage = document.getElementById('previewImage')
+      previewImage.src = e.target.results
+    }
+
+    reader.readAsDataURL(selectedFile)
+  } else {
+    console.log('Aucun fichier sélectionné')
+  }
+
+
+ }
+
+ await refreshGalleries()
 }
 
+/* J'affiche la galerie dans la modale, sur le bouton d'ajout de projet j'ouvre la seconde page de la modale et je peux retourner en arrière avec la flèche de retour, enfin, je récupère le formulaire présent sur la seconde page et je lui ajoute un évènement submit */
 
 const initModal = async function() {
   const travauxModal = await displayGalleryModal()

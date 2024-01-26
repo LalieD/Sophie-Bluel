@@ -1,11 +1,13 @@
 const url = "http://localhost:5678/api/users/login"
 
+/* C'est une expression régulière me permettant de vérifier que la saisie d'un format email est bien respectée */
 
 function validateEmail(email) {
     var emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return emailReg.test(email)
 }
 
+/* Je fais un appel à l'API pour vérifier les valeurs de l'email et du mot de passe qui ont été entrés, si ces derniers sont valides, l'utilisateur est redirigé vers la page d'accueil version mode édition car le token est stocké */
 
 async function login(emailValue, passwordValue) {
     
@@ -31,6 +33,7 @@ async function login(emailValue, passwordValue) {
     }
 }
 
+/* J'ajoute un évènement submit sur mon formulaire de connexion afin de vérifier les valeurs exactes qui ont été entrées et de les comparer avec les valeurs présentes dans l'API  */
 
 const init = () => {
     const formulaire = document.getElementById("formulaire")

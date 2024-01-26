@@ -4,6 +4,8 @@ const filters = document.getElementById("filters")
 const url2 = "http://localhost:5678/api/categories"
 
 
+/* Je récupère les projets depuis l'API */
+
 const getTravaux = () => {
     return fetch(url1)
     .then (function (res) {
@@ -13,6 +15,9 @@ const getTravaux = () => {
         console.log(error)
     })
 }
+
+
+/* Je récupère les filtres depuis l'API */
 
 const getFilters = () => {
     return fetch(url2)
@@ -24,6 +29,7 @@ const getFilters = () => {
     })
 }
 
+/* Je vérifie si un token est stocké dans local storage, si c'est le cas j'affiche le mode édition, sinon je cache le mode édition */
 
 function verificationToken() {
     const token = localStorage.getItem("token")
@@ -41,9 +47,13 @@ function verificationToken() {
     }
 }
 
+/* Je filtre les travaux en fonction du filtre cliqué */
+
 function filterWorks(works, selectedFilter) {
     return works.filter(work => work.categoryId === selectedFilter)
 }
+
+/* J'ajoute une classe "active" sur les filtres afin que l'effet reste même après avoir cliqué sur ces derniers */
 
 const activeClassAll = (event) => {
     Array.from(event.target.parentNode.children).forEach(element => {
@@ -52,6 +62,7 @@ const activeClassAll = (event) => {
     event.target.classList.add('active')
 }
 
+/* Je crée des boutons auxquels j'affecte les noms des filtres récupérés depuis l'API plus tôt et je trie les travaux */
 
 const displayFilter = (filter, works) => {
     const buttonFilter = document.createElement("button")
@@ -65,6 +76,8 @@ const displayFilter = (filter, works) => {
     })
     filters.appendChild(buttonFilter)
 }
+
+/* Je crée le bouton de filtres "Tous" et paramètre l'affichage de tous les projets puis rappelle les filtres pour les afficher  */
 
 const initFilters = async function(works) {
     const all = document.createElement("button")
@@ -83,6 +96,8 @@ const initFilters = async function(works) {
     })
 }
 
+/* Je crée les balises qui accueillent la galerie de projets et j'y insère les images et leur description qui ont été récupérés depuis l'API plus tôt */
+
 const displayWork = (work) => {
     const baliseFigure = document.createElement("figure")
         
@@ -99,6 +114,8 @@ const displayWork = (work) => {
     travaux.appendChild(baliseFigure)
 }
 
+/* Je vide les projets existants puis itération afin d'update le contenu du tableau des projets */
+
 const displayWorks = (works) => {
    travaux.innerHTML = ''
     works.forEach(work => {
@@ -106,6 +123,19 @@ const displayWorks = (works) => {
     })
 }
 
+/* Je rafraîchis la galerie de la page d'accueil */
+
+const refreshHomePageGallery = async () => {
+    
+    worksModal.innerHTML = ''
+  
+    const travauxModal = await displayGalleryModal()
+    travauxModal.forEach(gallery => {
+      displayGallery(gallery)
+    })
+  }
+
+/* Je récupère les projets et les affiche, j'appelle la fonction qui affiche les filtres ensuite, je vérifie la présence du token pour afficher le bon mode sur la page et je redirige l'utilisateur sur la page de login en vidant le local storage s'il clique sur "logout" */
 
 const init = async function() {
     const works = await getTravaux()
