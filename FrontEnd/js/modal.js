@@ -110,6 +110,36 @@ const displayCategory = (data) => {
 
 }
 
+/* Ici c'est la fonction qui permet de prévisualiser l'image qui a été ajoutée dans l'input file */
+
+function handleFileSelect(event) {
+  const files = event.target.files
+  const previewImage = document.getElementById('previewImage')
+  const inputPhoto = document.querySelector('.inputPhoto')
+
+  if(files.length > 0) {
+    const selectedFile = files[0]
+
+    const reader = new FileReader()
+
+    reader.onload = function () {
+      previewImage.src = reader.result
+      previewImage.style.display = 'block'
+     
+      inputPhoto.classList.add('hide-on-preview')
+    }
+
+    reader.readAsDataURL(selectedFile)
+  } else {
+    previewImage.style.display = 'none'
+    
+    inputPhoto.classList.remove('hide-on-preview')
+
+    console.log('Aucun fichier sélectionné')
+  }
+ }
+
+
 /* Je cache la première page de la modale pour afficher la seconde page de la modale */
 
 const openAddProjetFormModal = function (e) {
@@ -119,8 +149,8 @@ const openAddProjetFormModal = function (e) {
   displayCategoryModal()
 
   /*Preview de l'image*/
-  const previewImage = document.getElementById('previewImage')
-  previewImage.style.display = 'block'
+  const fileInput = document.getElementById('fileInput')
+  fileInput.addEventListener('change', handleFileSelect)
 
 }
 
@@ -199,44 +229,38 @@ const validateForm = async function (e) {
  
  /*Soumission du formulaire si tous les champs sont valides*/
  if (errorTitle.textContent === '' && errorFileInput.textContent === '' && errorSelectCategory.textContent === '') {
-  console.log('Formulaire valide, tous les champs ont correctement été renseignés')
- }
+  const formData = new FormData()
+  formData.append('title', titleInput.value)
+  formData.append('category', selectCategory.value)
+  formData.append('image', fileInput.files[0])
+  
+  try {
+    const response = await fetch ("http://localhost:5678/api/works", {
+      method: 'POST',
+      body: formData,
+    })
 
-
- /*Test affichage infos fichier ajouté*/
- fileInput.addEventListener('change', handleFileSelect)
-
- function handleFileSelect(event) {
-  const files = event.target.files
-  if (files.length > 0) {
-    const selectedFile = files[0]
-    console.log('Nom du fichier :', selectedFile.name)
-    console.log('Taille du fichier :', selectedFile.size, 'octets')
-    console.log('Type MIME du fichier :', selectedFile.type)
-
-    const reader = new FileReader()
-
-    reader.onload = function (e) {
-      const previewImage = document.getElementById('previewImage')
-      previewImage.src = e.target.results
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'envoi des données')
     }
 
-    reader.readAsDataURL(selectedFile)
-  } else {
-    console.log('Aucun fichier sélectionné')
+    await refreshGalleries()
+    closeModal()
+  } catch (error) {
+    console.error('Erreur lors de l\'envoi des données')
   }
 
 
+
+
  }
 
- await refreshGalleries()
 }
 
 /* J'affiche la galerie dans la modale, sur le bouton d'ajout de projet j'ouvre la seconde page de la modale et je peux retourner en arrière avec la flèche de retour, enfin, je récupère le formulaire présent sur la seconde page et je lui ajoute un évènement submit */
 
 const initModal = async function() {
   const travauxModal = await displayGalleryModal()
-  console.log(travaux.Modal)
   travauxModal.forEach(gallery => {
     displayGallery(gallery)
   })
