@@ -41,7 +41,8 @@ const displayGallery = async function(work) {
 }
 
 
-/*Test fonction de suppression des projets*/
+/* Fonction de suppression des projets */
+
 const deleteWork = async (projectId) => {
   const url = `http://localhost:5678/api/works/${projectId}`
   
@@ -88,7 +89,7 @@ const displayCategoryModal = () => {
     })
 }
 
-/* Je récupère la balise aside contenant toute la modale puisles deux pages indépendamment */
+/* Je récupère la balise aside contenant toute la modale puis les deux pages indépendamment */
 
 let modal = document.getElementById("modal1")
 let firstPage = document.getElementById("modalFirstPage")
@@ -123,7 +124,7 @@ const displayCategory = (data) => {
 
 }
 
-/* Ici c'est la fonction qui permet de prévisualiser l'image qui a été ajoutée dans l'input file */
+/* Fonction qui permet de prévisualiser l'image qui a été ajoutée dans l'input file */
 
 function handleFileSelect(event) {
   const files = event.target.files
@@ -186,11 +187,13 @@ const closeModal = function (e) {
   modal.removeAttribute('aria-modal')
   document.getElementById('formModal').reset()
   
+  /* Vide le formulaire lorsque la modale est fermée */
   const previewImage = document.getElementById('previewImage')
   const inputPhoto = document.querySelector('.inputPhoto')
   previewImage.style.display = 'none'
   inputPhoto.classList.remove('hide-on-preview')
 
+  /* Retour sur la première page de la modale si je ferme cette dernière */
   firstPage.style.display = "flex"
   secondPage.style.display ="none"
 }
@@ -223,7 +226,7 @@ const refreshGalleries = async () => {
 
 const validateForm = async function (e) {
  e.preventDefault()
- /*Test fonction de validation du formulaire*/
+ /* Fonction de validation du formulaire */
  const titleInput = document.getElementById('titleInput')
  const fileInput = document.getElementById('fileInput')
  const selectCategory = document.getElementById('selectCategory')
@@ -232,7 +235,7 @@ const validateForm = async function (e) {
  const errorFileInput = document.getElementById('errorFileInput')
  const errorSelectCategory = document.getElementById('errorSelectCategory')
 
- /*Réinitialisation des messages d'erreur*/
+ /* Réinitialisation des messages d'erreur */
  errorTitle.textContent = ''
  errorFileInput.textContent = ''
  errorSelectCategory.textContent = ''
@@ -249,7 +252,7 @@ const validateForm = async function (e) {
   errorSelectCategory.textContent = 'Veuillez sélectionner une catégorie'
  }
  
- /*Soumission du formulaire si tous les champs sont valides*/
+ /* Soumission du formulaire si tous les champs sont valides */
  if (errorTitle.textContent === '' && errorFileInput.textContent === '' && errorSelectCategory.textContent === '') {
   const formData = new FormData()
   formData.append('title', titleInput.value)
@@ -296,10 +299,8 @@ const initModal = async function() {
   modal.querySelectorAll('.jsModalClose').forEach(Element => {
     Element.addEventListener('click', closeModal)
   })
-  /* Récupérer le formulaire via l'id, ajouter un event de submit (à la place de click) puis validateForm() comme juste au dessus!*/
   const form = document.getElementById('formModal')
   form.addEventListener('submit', validateForm)
-
 }
 
 
