@@ -446,7 +446,16 @@ input[type="submit"]{
 }
 
 #previewImage {
-	max-width: 100%;
+	max-width: 30%;
+	display: none;
+	margin: 0 auto;
+}
+
+.hide-on-preview > .fileButton {
+	background-color: transparent;
+}
+
+.hide-on-preview .addPicture {
 	display: none;
 }
 

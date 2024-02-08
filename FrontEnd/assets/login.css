@@ -56,16 +56,20 @@ table {
 }
 
 body {
-	max-width: 1140px;
-	margin:auto;
-	font-family: 'Work Sans' ;
+	font-family: 'Work Sans';
 	font-size: 14px;
+	display: flex;
+  	flex-direction: column;
+  	min-height: 100vh;
+	align-items: center;
 }
 
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
+	max-width: 1140px;
+	width: 100%;
 }
 
 #headerLogin {
@@ -95,6 +99,7 @@ h1 > span {
 	letter-spacing: 0.1em;
 }
 
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -108,6 +113,12 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+}
+
+main {
+	flex: 1;	
+	max-width: 1140px;
+	width: 100%;
 }
 
 h2{
@@ -170,11 +181,25 @@ main button {
 }
 
 
+footer {
+	background-color: #FFFFFF;
+	margin-top: auto;
+	width: 100%;
+}
+
 footer nav ul {
 	display: flex;
-	background-color: #FFFFFF;
 	justify-content: flex-end;
 	font-family : 'Work Sans';
 	font-size: 14px;
-	padding: 0, ;
+	background-color: #FFFFFF;
 }
+
+footer li {
+	background-color: #FFFFFF;
+}
+
+footer nav {
+	padding: 1rem;
+}
+

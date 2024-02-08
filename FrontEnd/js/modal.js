@@ -51,14 +51,21 @@ const deleteWork = async (projectId) => {
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
     })
+    
 
     if (!response.ok) {
       throw new Error('Erreur lors de la suppression du projet')
     }
+
+    const works = await getTravaux()
+    console.log(works)
+    travaux.innerHTML = ''
+    works.forEach(work => {
+        displayWork(work)
+    })
 
     console.log('Projet supprimé avec succès')
   } catch (error) {
@@ -131,8 +138,10 @@ function handleFileSelect(event) {
     reader.onload = function () {
       previewImage.src = reader.result
       previewImage.style.display = 'block'
+    
      
       inputPhoto.classList.add('hide-on-preview')
+      
     }
 
     reader.readAsDataURL(selectedFile)
@@ -175,6 +184,15 @@ const closeModal = function (e) {
   modal.style.display = "none"
   modal.setAttribute('aria-hidden', 'true')
   modal.removeAttribute('aria-modal')
+  document.getElementById('formModal').reset()
+  
+  const previewImage = document.getElementById('previewImage')
+  const inputPhoto = document.querySelector('.inputPhoto')
+  previewImage.style.display = 'none'
+  inputPhoto.classList.remove('hide-on-preview')
+
+  firstPage.style.display = "flex"
+  secondPage.style.display ="none"
 }
 
 /* Cela permet d'empêcher la propagation de l'évènement de clic */
@@ -253,10 +271,14 @@ const validateForm = async function (e) {
       throw new Error('Erreur lors de l\'envoi des données')
     }
 
+    const work = await response.json()
+
     await refreshGalleries()
-    closeModal()
+    displayWork(work)
+    closeModal(e)
   } catch (error) {
     console.error('Erreur lors de l\'envoi des données')
+    console.log(error)
   }
  }
 }
@@ -277,6 +299,7 @@ const initModal = async function() {
   /* Récupérer le formulaire via l'id, ajouter un event de submit (à la place de click) puis validateForm() comme juste au dessus!*/
   const form = document.getElementById('formModal')
   form.addEventListener('submit', validateForm)
+
 }
 
 
