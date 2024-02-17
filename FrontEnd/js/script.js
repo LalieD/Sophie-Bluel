@@ -94,6 +94,9 @@ const initFilters = async function(works) {
     displayFilters.forEach(filter => {
         displayFilter(filter, works)
     })
+
+    /* Le bouton "Tous" a automatiquement un hover à l'arrivée sur la page d'accueil */ 
+    all.click()
 }
 
 /* Je crée les balises qui accueillent la galerie de projets et j'y insère les images et leur description qui ont été récupérés depuis l'API plus tôt */
